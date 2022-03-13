@@ -82,8 +82,9 @@ function grid_redraw()
   for i=1,grid_size do
   	y = i % 8
   	x =  round(i)
-  	if twill(i) == 1 then
-  		g:led(x,y,15)
+  	if twill[i] == 1 then
+  		g:led(y,x,15)
+  	end
   end
   g:refresh()
 end
@@ -92,7 +93,7 @@ function count()
   while true do
     clock.sync(1/4)
     position = (position % 16) + 1
-    engine.hz(music.note_num_to_freq(scale[steps[position]] + transpose))
+    engine.hz(music.note_num_to_freq(scale[notes[position]] + transpose))
     grid_redraw()
     redraw() -- for bpm changes on LINK, MIDI, or crow
   end
