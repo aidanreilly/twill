@@ -68,15 +68,22 @@ g = grid.connect()
 
 g.key = function(x,y,z)
   if z == 1 then
-    steps[x] = 9-y
     grid_redraw()
   end
 end
 
+function round(number)
+  return number - (number % 1)
+end
+
 function grid_redraw()
+	--grid:led (x column, y row, val)
   g:all(0)
   for i=1,grid_size do
-    g:led(i,9-steps[i],i==position and 15 or 4)
+  	y = i % 8
+  	x =  round(i)
+  	if twill(i) == 1 then
+  		g:led(x,y,15)
   end
   g:refresh()
 end
