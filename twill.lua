@@ -13,19 +13,29 @@ engine.name = 'PolyPerc'
 music = require 'musicutil'
 beatclock = require 'beatclock'
 
-steps = {}
+warp = {0,1,0,1,1}
+weft = {1,1,0}
+notes = {}
+twill = {}
 position = 1
 transpose = 0
+grid_size = 64
 
 mode = math.random(#music.SCALES)
 scale = music.generate_scale_of_length(60,music.SCALES[mode].name,8)
 
 function init()
-  for i=1,16 do
-    table.insert(steps,math.random(8))
+  for i=1,grid_size do
+    table.insert(notes,math.random(8))
   end
   grid_redraw()
   clock.run(count)
+end
+
+function create_twill()
+	  for i=1,grid_size do
+    table.insert(twill,math.random(0,1))
+  end
 end
 
 function enc(n,d)
@@ -54,6 +64,8 @@ end
 
 g = grid.connect()
 
+-- https://monome.org/docs/norns/grid-recipes/#toc
+
 g.key = function(x,y,z)
   if z == 1 then
     steps[x] = 9-y
@@ -63,7 +75,7 @@ end
 
 function grid_redraw()
   g:all(0)
-  for i=1,16 do
+  for i=1,grid_size do
     g:led(i,9-steps[i],i==position and 15 or 4)
   end
   g:refresh()
