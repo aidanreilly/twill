@@ -36,6 +36,13 @@ function create_twill()
 	  for i=1,grid_size do
     table.insert(twill,math.random(0,1))
   end
+  for i=1,grid_size do
+    y = i % 8
+    x =  round(i)
+    if twill[i] == 1 then
+      g:led(y,x,15)
+    end
+  end
 end
 
 function enc(n,d)
@@ -79,14 +86,6 @@ end
 function grid_redraw()
 	--grid:led (x column, y row, val)
   g:all(0)
-  for i=1,grid_size do
-  	y = i % 8
-  	x =  round(i)
-  	if twill[i] == 1 then
-  		g:led(y,x,15)
-  	end
-  end
-  g:refresh()
 end
 
 function count()
